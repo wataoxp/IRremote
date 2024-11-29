@@ -13,6 +13,17 @@ static inline void DisableIR(void)
 	__NVIC_DisableIRQ(EXTI2_3_IRQn);
 	__NVIC_ClearPendingIRQ(EXTI2_3_IRQn);
 }
+void Sleep200ms(TIM_TypeDef *TIMsleep)
+{
+	LL_TIM_EnableIT_UPDATE(TIMsleep);
+
+	__WFI();
+	while(LL_TIM_IsActiveFlag_UPDATE(TIMsleep) == 0)
+	{
+		TIM14->CNT;
+	}
+	LL_TIM_ClearFlag_UPDATE(TIMsleep);
+}
 uint32_t RecieveIR(TIM_TypeDef *TIMx)
 {
 	uint32_t Binary = 0;
@@ -40,18 +51,6 @@ uint32_t RecieveIR(TIM_TypeDef *TIMx)
 		numBits++;
 	}
 	return Binary;
-}
-
-void Sleep200ms(TIM_TypeDef *TIMsleep)
-{
-	LL_TIM_EnableIT_UPDATE(TIMsleep);
-
-	__WFI();
-	while(LL_TIM_IsActiveFlag_UPDATE(TIMsleep) == 0)
-	{
-		TIM14->CNT;
-	}
-	LL_TIM_ClearFlag_UPDATE(TIMsleep);
 }
 void RecieveIR_IT(TIM_TypeDef *TIMx,uint32_t *Binary,uint8_t *Flag,uint8_t mode)
 {
