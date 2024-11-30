@@ -25,7 +25,7 @@
 
 /* Polling Status */
 #define IR_P_REPEAT 1
-#define IR_P_REPEAT_TIMING 4000 //4000us
+#define IR_P_REPEAT_TIMING 3000 //LeaderCode Min 4000us
 
 typedef enum{
 	StartLeader,
@@ -68,7 +68,7 @@ void RecieveIR_IT(TIM_TypeDef *TIMx,uint32_t *Binary,uint8_t *Flag,uint8_t mode)
  */
 void BinaryToHex(ConvertLSB *LSB,uint32_t *Binary);
 /*
- * 受信関数がMSB並びで格納したビット列をLSB列で、かつ8ビット変数4つに分解します。
+ * 受信関数がLSB並びで格納したビット列を8ビット変数4つに分解します。
  */
 void DataReset(ConvertLSB *LSB);
 /*
@@ -76,7 +76,7 @@ void DataReset(ConvertLSB *LSB);
  * memset()を使っているのでこの関数は使いませんが、一応残しておきます。
  */
 
-/* *** NECフォーマットについて ***
+/* ***NECフォーマットについて ***
  * 本プログラムはNECフォーマットの赤外線リモコンを想定したものになっています。
  * また赤外線受信においてはOSRB38C99Aを利用しています。
  * 同モジュールにおいては送信側の赤外線が「点灯」したときに「Low」が出力されます。
@@ -88,7 +88,7 @@ void DataReset(ConvertLSB *LSB);
  * 9000us(9ms)間のLow、4000us(4ms)のHigh
  * 割り込みを使う場合、初回の立ち下がりから次の立ち下がりまでの時間が13000us程度であれば正しいデータと判断できます。
  *
- * AddressCode 送信側個体のアドレスを伝える。16ビット
+ * AｄｄｒｅｓｓCｏｄｅ 送信側個体のアドレスを伝える。16ビット
  *
  * DataCode リモコンであればどのボタンが押されたかの情報を伝える。16ビット
  *
@@ -103,7 +103,7 @@ void DataReset(ConvertLSB *LSB);
  * ロジックアナライザでの測定をした限り、データ受信後から50ms程度の時間に意図しないRepeatCodeが送られていました。
  * ですのでデータ受信後は一定時間次のデータを無視するなど、チャタリング(debounce)対策のようなことが必要になるかもしれません。
  *
- * *** 周辺環境の影響 ***
+ * ***周辺環境の影響***
  * 受信モジュールによるのかもしれませんが、テスト中は可能な限り受信モジュール周辺を暗い環境にすることを推奨します。
  * 特に直射日光が当たる環境でのテストは非常に困難です。
  * 私はLED照明のほぼ直下でテストを行っていましたが、それでもまれに無効な信号(ノイズ)が検知されました。
