@@ -17,11 +17,8 @@ void Sleep200ms(TIM_TypeDef *TIMsleep)
 {
 	LL_TIM_EnableIT_UPDATE(TIMsleep);
 
-	__WFI();
-	while(LL_TIM_IsActiveFlag_UPDATE(TIMsleep) == 0)
-	{
-		TIM14->CNT;
-	}
+	__WFI();													//wait for interrupt
+	while(LL_TIM_IsActiveFlag_UPDATE(TIMsleep) == 0);
 	LL_TIM_ClearFlag_UPDATE(TIMsleep);
 }
 uint32_t RecieveIR(TIM_TypeDef *TIMx)
@@ -31,15 +28,15 @@ uint32_t RecieveIR(TIM_TypeDef *TIMx)
 
 	while((LL_GPIO_IsInputPinSet(IR_p_GPIO_Port, IR_p_Pin)));	//wait HighPulse
 
-	while(!(LL_GPIO_IsInputPinSet(IR_p_GPIO_Port, IR_p_Pin)));	//wait LowPulse
+	while(!(LL_GPIO_IsInputPinSet(IR_p_GPIO_Port, IR_p_Pin)));	//Start LeaderCode
 	TIMx->CNT = 0;
-	while((LL_GPIO_IsInputPinSet(IR_p_GPIO_Port, IR_p_Pin)));	//wait HighPulse
+	while((LL_GPIO_IsInputPinSet(IR_p_GPIO_Port, IR_p_Pin)));
 	if(TIMx->CNT < IR_P_REPEAT_TIMING)
 	{
 		return IR_P_REPEAT;
-	}
+	}															//End LeaderCode
 
-	while(numBits < 32)
+	while(numBits < 32)											//Check DataBit
 	{
 		TIMx->CNT = 0;
 		while(!(LL_GPIO_IsInputPinSet(IR_p_GPIO_Port, IR_p_Pin)));
