@@ -111,12 +111,12 @@ void RecieveIR_IT(TIM_TypeDef *TIMx,uint32_t *Binary,uint8_t *Flag,uint8_t mode)
 	}
 	__enable_irq();
 }
-void BinaryToHex(ConvertLSB *LSB,uint32_t *Binary)
+void BinaryToHex(ConvertLSB *LSB,uint32_t Binary)
 {
-	LSB->bit8 = (uint8_t)(*Binary & 0xFF);
-	LSB->bit16 = (uint8_t)(*Binary >> 8) & 0xFF;
-	LSB->bit24 = (uint8_t)(*Binary >> 16) & 0xFF;
-	LSB->bit31 = (uint8_t)(*Binary >> 24) & 0xFF;
+	LSB->bit8 = (uint8_t)(Binary & 0xFF);
+	LSB->bit16 = (uint8_t)(Binary >> 8) & 0xFF;
+	LSB->bit24 = (uint8_t)(Binary >> 16) & 0xFF;
+	LSB->bit31 = (uint8_t)(Binary >> 24) & 0xFF;
 
 }
 void DataReset(ConvertLSB *LSB)
