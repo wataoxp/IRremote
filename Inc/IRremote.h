@@ -66,7 +66,7 @@ void RecieveIR_IT(TIM_TypeDef *TIMx,uint32_t *Binary,uint8_t *Flag,uint8_t mode)
  *
  * 意図しない形での多重割り込みを防ぐ事を期待して関数の最初と最後で割り込みの禁止・許可を行っています。
  */
-void BinaryToHex(ConvertLSB *LSB,uint32_t *Binary);
+void BinaryToHex(ConvertLSB *LSB,uint32_t Binary);
 /*
  * 受信関数がLSB並びで格納したビット列を8ビット変数4つに分解します。
  */
