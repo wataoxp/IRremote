@@ -168,7 +168,7 @@ int main(void)
 		  }
 		  else if(Flag == IR_ACK)
 		  {
-			  BinaryToHex(&LSB, &Binary);
+			  BinaryToHex(&LSB, Binary);
 			  sprintf(DataBuffer,"Add1:%X\r\nAdd2:%X\r\nData1:%X\r\nData2:%X\r\n",LSB.bit8,LSB.bit16,LSB.bit24,LSB.bit31);
 			  HAL_UART_Transmit(&huart1, (uint8_t*)DataBuffer, strlen(DataBuffer), HAL_MAX_DELAY);
 
