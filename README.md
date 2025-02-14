@@ -17,8 +17,6 @@ Edited File
 * IRremote.h
 * stm32g0xx_it.c
 
-IRremote.hの下部に備考がありますので、使用前に確認してください。
-
 ## Licence
 [MIT](https://github.com/wataoxp/Radio/blob/main/LICENSE)
 
